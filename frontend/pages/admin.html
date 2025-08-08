@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - MovieZ</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #121212;
+      border-bottom: 2px solid red;
+    }
+    .logo {
+      font-size: 24px;
+      color: #e50914;
+    }
+    .container {
+      padding: 40px;
+    }
+    h2 {
+      color: #e50914;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      border: 1px solid red;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: red;
+      color: white;
+    }
+    td {
+      background-color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎬 MovieZ Admin</div>
+    <div class="nav-buttons">
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Registered Users</h2>
+    <table id="userTable">
+      <thead>
+        <tr><th>Name</th><th>Email</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h2>All Bookings</h2>
+    <table id="bookingTable">
+      <thead>
+        <tr><th>Movie</th><th>Date</th><th>Time</th><th>Tickets</th><th>User Email</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("user");
+      alert("Logged out.");
+      window.location.href = "login.html";
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+    const userTable = document.querySelector("#userTable tbody");
+    users.forEach(u => {
+      userTable.innerHTML += `<tr><td>${u.name}</td><td>${u.email}</td></tr>`;
+    });
+
+    const bookingTable = document.querySelector("#bookingTable tbody");
+    bookings.forEach(b => {
+      bookingTable.innerHTML += `<tr>
+        <td>${b.movie}</td>
+        <td>${b.date}</td>
+        <td>${b.time}</td>
+        <td>${b.tickets}</td>
+        <td>${b.userEmail}</td>
+      </tr>`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile - MovieZ</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #121212;
+      border-bottom: 2px solid red;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: #e50914;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #ff2a2a;
+    }
+
+    .profile-container {
+      max-width: 700px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 30px red;
+    }
+
+    h2 {
+      color: #e50914;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .user-info {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .user-info strong {
+      display: inline-block;
+      width: 80px;
+    }
+
+    .booking-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .booking-table th, .booking-table td {
+      border: 1px solid red;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .booking-table th {
+      background-color: red;
+      color: white;
+    }
+
+    .booking-table td {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">🎬 MovieZ</div>
+    <div class="nav-buttons">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='profile.html'">Profile</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+    <div class="user-info">
+      <p><strong>Name:</strong> <span id="userName"></span></p>
+      <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    </div>
+
+    <h2>Your Bookings</h2>
+    <table class="booking-table" id="bookingTable">
+      <thead>
+        <tr>
+          <th>Movie</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Tickets</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled dynamically -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user || !user.email) {
+      alert("Please login to access your profile.");
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("userName").innerText = user.name;
+      document.getElementById("userEmail").innerText = user.email;
+    }
+
+    // Load and filter bookings by logged-in user
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+    const userBookings = bookings.filter(b => b.userEmail === user.email);
+    const tbody = document.querySelector("#bookingTable tbody");
+
+    if (userBookings.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4">No bookings found.</td></tr>`;
+    } else {
+      userBookings.forEach(b => {
+        const row = `
+          <tr>
+            <td>${b.movie}</td>
+            <td>${b.date}</td>
+            <td>${b.time}</td>
+            <td>${b.tickets}</td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem("user");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

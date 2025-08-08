@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking Confirmation - MovieZ</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #121212;
+      border-bottom: 2px solid red;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: #e50914;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #ff2a2a;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 20px red;
+      text-align: center;
+    }
+
+    h2 {
+      color: #e50914;
+      margin-bottom: 20px;
+    }
+
+    .ticket {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .download-btn {
+      margin-top: 25px;
+      padding: 12px 20px;
+      background-color: #e50914;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background-color: #b00610;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">🎬 MovieZ</div>
+    <div class="nav-buttons">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='profile.html'">Profile</button>
+      <button onclick="location.href='login.html'">Login</button>
+      <button onclick="location.href='signup.html'">Signup</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>🎫 Booking Confirmation</h2>
+    <div class="ticket" id="ticketDetails">
+      Loading your ticket...
+    </div>
+    <button class="download-btn" onclick="downloadTicket()">Download Ticket</button>
+  </div>
+
+  <script>
+    const ticketDiv = document.getElementById("ticketDetails");
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+    if (bookings.length > 0) {
+      const lastBooking = bookings[bookings.length - 1];
+
+      const html = `
+        <strong>Movie:</strong> ${lastBooking.movie}<br>
+        <strong>Date:</strong> ${lastBooking.date}<br>
+        <strong>Time:</strong> ${lastBooking.time}<br>
+        <strong>Tickets:</strong> ${lastBooking.tickets}<br>
+        <strong>Booking ID:</strong> #MOV${Math.floor(Math.random() * 100000)}
+      `;
+
+      ticketDiv.innerHTML = html;
+    } else {
+      ticketDiv.innerHTML = "No booking found.";
+    }
+
+    function downloadTicket() {
+      const element = document.createElement('a');
+      const text = ticketDiv.innerText;
+      const file = new Blob([text], { type: 'text/plain' });
+      element.href = URL.createObjectURL(file);
+      element.download = "MovieZ_Ticket.txt";
+      element.click();
+    }
+  </script>
+
+</body>
+</html>

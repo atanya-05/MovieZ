@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - MovieZ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #121212;
+      border-bottom: 2px solid red;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: #e50914;
+    }
+
+    .nav-buttons button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      margin-left: 15px;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #ff2a2a;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 20px red;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #e50914;
+      margin-bottom: 30px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      background-color: #333;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      color: white;
+    }
+
+    .login-btn {
+      width: 100%;
+      background-color: #e50914;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background-color: #b00610;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: lightgreen;
+    }
+
+    .message.error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">🎬 MovieZ</div>
+    <div class="nav-buttons">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='profile.html'">Profile</button>
+      <button onclick="location.href='login.html'">Login</button>
+      <button onclick="location.href='signup.html'">Signup</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Login to MovieZ</h2>
+
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button class="login-btn" onclick="login()">Login</button>
+
+    <div class="message" id="loginMessage"></div>
+  </div>
+
+  <script>
+    function login() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const msg = document.getElementById('loginMessage');
+
+      if (!email || !password) {
+        msg.textContent = 'Please enter both email and password.';
+        msg.className = 'message error';
+        return;
+      }
+
+      // Simulate fetching users from localStorage
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+
+      // Find matching user
+      const matchedUser = users.find(user => user.email === email && user.password === password);
+
+      if (!matchedUser) {
+        msg.textContent = 'Invalid email or password.';
+        msg.className = 'message error';
+        return;
+      }
+
+      // Save current logged-in user
+      localStorage.setItem('user', JSON.stringify({
+        name: matchedUser.name,
+        email: matchedUser.email
+      }));
+
+      msg.textContent = 'Login successful! ✅';
+      msg.className = 'message';
+
+      // Redirect to profile page
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>

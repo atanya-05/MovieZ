@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Tickets - MovieZ</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #121212;
+      border-bottom: 2px solid red;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      color: #e50914;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #ff2a2a;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 20px red;
+    }
+
+    h2 {
+      color: #e50914;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    select,
+    input[type="date"],
+    input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background: #333;
+      color: white;
+      margin-bottom: 20px;
+      height: 45px;
+    }
+
+    button.submit {
+      width: 100%;
+      background-color: #e50914;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      height: 45px;
+    }
+
+    button.submit:hover {
+      background-color: #b00610;
+    }
+
+    @media (max-width: 600px) {
+      .nav-buttons {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .nav-buttons button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">🎬 MovieZ</div>
+    <div class="nav-buttons">
+      <button onclick="location.href='index.html'">Home</button>
+      <button onclick="location.href='profile.html'">Profile</button>
+      <button onclick="location.href='login.html'">Login</button>
+      <button onclick="location.href='signup.html'">Signup</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Book Your Movie</h2>
+
+    <label for="movie">Select Movie</label>
+    <select id="movie">
+      <option value="Inception">Inception</option>
+      <option value="Interstellar">Interstellar</option>
+      <option value="Avatar">Avatar</option>
+    </select>
+
+    <label for="date">Select Date</label>
+    <input type="date" id="date" required>
+
+    <label for="time">Select Time</label>
+    <select id="time" required>
+      <option value="">--Select Time--</option>
+      <option value="10:00">10:00 AM</option>
+      <option value="12:00">12:00 PM</option>
+      <option value="16:00">4:00 PM</option>
+      <option value="19:00">7:00 PM</option>
+      <option value="22:00">10:00 PM</option>
+    </select>
+
+    <label for="tickets">Number of Tickets</label>
+    <input type="number" id="tickets" min="1" max="10" value="1">
+
+    <button class="submit" onclick="proceedToConfirm()">Proceed to Confirm</button>
+  </div>
+
+  <script>
+    // Restrict date to today or future
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("date").setAttribute("min", today);
+
+    function proceedToConfirm() {
+      const movie = document.getElementById("movie").value;
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const tickets = parseInt(document.getElementById("tickets").value);
+
+      if (!date || !time || tickets < 1) {
+        alert("Please fill all fields correctly.");
+        return;
+      }
+
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user || !user.email) {
+        alert("Please login to book tickets.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const newBooking = {
+        movie,
+        date,
+        time,
+        tickets,
+        userEmail: user.email  // associate booking with user
+      };
+
+      let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+      bookings.push(newBooking);
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+
+      location.href = "confirmation.html";
+    }
+  </script>
+
+</body>
+</html>
