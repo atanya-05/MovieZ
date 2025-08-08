@@ -4,7 +4,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  const res = await fetch("http://localhost:5000/api/auth/signup", {
+  const res = await fetch("https://YOUR_BACKEND_HOST/api/movies", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, email, password })

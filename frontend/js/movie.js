@@ -1,5 +1,6 @@
 window.onload = async () => {
-  const res = await fetch("http://localhost:5000/api/movies");
+  const res = await fetch('https://YOUR_BACKEND_HOST/api/movies');
+
   const movies = await res.json();
 
   const container = document.getElementById("moviesContainer");
