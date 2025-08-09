@@ -1,16 +1,34 @@
+// signup.js
+
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
 
-  const res = await fetch("https://YOUR_BACKEND_HOST/api/movies", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password })
-  });
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-  const data = await res.json();
-  alert(data.message);
-  window.location.href = "login.html";
+  if (!name || !email || !password) {
+    alert("Please fill in all fields");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert(data.message || "Signup successful! Please log in.");
+      window.location.href = "login.html";
+    } else {
+      alert(data.message || "Signup failed. Please try again.");
+    }
+  } catch (err) {
+    console.error("Error during signup:", err);
+    alert("Something went wrong. Please try again later.");
+  }
 });
