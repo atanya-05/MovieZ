@@ -1,4 +1,4 @@
-// signup.js
+console.log("Signup JS Loaded");
 
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -22,13 +22,13 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert(data.message || "Signup successful! Please log in.");
+      alert(data.message || "Signup successful! Please login.");
       window.location.href = "login.html";
     } else {
       alert(data.message || "Signup failed. Please try again.");
     }
-  } catch (err) {
-    console.error("Error during signup:", err);
+  } catch (error) {
+    console.error("Error during signup:", error);
     alert("Something went wrong. Please try again later.");
   }
 });
