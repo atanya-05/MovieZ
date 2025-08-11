@@ -13,7 +13,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/signup", {
+    const res = await fetch("https://moviez-backend.onrender.com/api/movies", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password })

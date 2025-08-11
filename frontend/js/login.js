@@ -3,7 +3,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
-  const res = await fetch("https://YOUR_BACKEND_HOST/api/movies", {
+  const res = await ffetch("https://moviez-backend.onrender.com/api/movies", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })

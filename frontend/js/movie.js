@@ -3,7 +3,7 @@ console.log("Now Showing Page Loaded");
 window.onload = async () => {
   try {
     // Fetch movie data from backend
-    const res = await fetch('http://localhost:3000/api/movies');
+    const res = await fetch("https://moviez-backend.onrender.com/api/movies");
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
