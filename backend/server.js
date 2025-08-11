@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
